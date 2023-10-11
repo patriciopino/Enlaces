@@ -1,0 +1,62 @@
+Según los resultados de la búsqueda web, no hay una única respuesta sobre cómo se deben montar los volúmenes para tener separadas las carpetas /boot, /root, /var, /tmp, /home y otras en Red Hat. El tamaño y la ubicación de las particiones dependen de varios factores, como el propósito del sistema, el espacio disponible en el disco, el rendimiento esperado y la seguridad deseada¹. Sin embargo, se pueden seguir algunas pautas generales para ayudar a decidir cómo particionar el disco:
+
+- La partición /boot debe tener al menos **1 GB** de tamaño y estar formateada con el sistema de archivos **xfs**¹. Esta partición contiene los archivos necesarios para el arranque del sistema, como el cargador de arranque y el núcleo.
+- La partición /root debe tener al menos **10 GB** de tamaño y estar formateada con el sistema de archivos **xfs**¹. Esta partición contiene los archivos del sistema operativo y las aplicaciones instaladas. Se recomienda asignar más espacio si se planea instalar muchos paquetes o almacenar datos en esta partición.
+- La partición /var debe tener al menos **4 GB** de tamaño y estar formateada con el sistema de archivos **xfs**¹. Esta partición contiene los archivos variables del sistema, como los registros, las colas de correo, las bases de datos y los archivos temporales. Se recomienda asignar más espacio si se espera un alto volumen de actividad en esta partición.
+- La partición /tmp debe tener al menos **1 GB** de tamaño y estar formateada con el sistema de archivos **xfs**¹. Esta partición contiene los archivos temporales creados por las aplicaciones y los usuarios. Se recomienda asignar más espacio si se usan aplicaciones que generan muchos archivos temporales o se almacenan datos en esta partición.
+- La partición /home debe tener al menos **1 GB** de tamaño por cada usuario y estar formateada con el sistema de archivos **xfs**¹. Esta partición contiene los archivos personales de los usuarios, como los documentos, las imágenes, la música y las configuraciones. Se recomienda asignar más espacio si se almacenan muchos datos en esta partición o se desea cifrarla.
+- Otras particiones opcionales que se pueden crear son la partición swap, que se usa como memoria virtual cuando la memoria física está llena; la partición /usr, que contiene los archivos ejecutables y las bibliotecas compartidas del sistema; la partición /opt, que contiene los programas opcionales instalados por el usuario; y la partición /srv, que contiene los datos de los servicios proporcionados por el sistema².
+
+Espero que esta respuesta te haya sido útil. Si quieres saber más sobre cómo crear y gestionar las particiones en Red Hat, puedes consultar los siguientes enlaces:
+
+- [Capítulo 8. Particionamiento del disco - Red Hat Customer Portal](^1^)
+- [Particionamiento recomendado para Linux - IBM Knowledge Center](^2^)
+- [Asignar una ruta de acceso de carpeta de punto de montaje a una unidad ...](^3^)
+
+Origen: Conversación con Bing, 11-10-2023
+(1) Particiones de disco duro basadas en UEFI/GPT | Microsoft Learn. https://learn.microsoft.com/es-es/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions?view=windows-11.
+(2) Introducción a NTFS | Microsoft Learn. https://learn.microsoft.com/es-es/windows-server/storage/file-server/ntfs-overview.
+(3) Particiones de disco duro basadas en UEFI/GPT | Microsoft Learn. https://learn.microsoft.com/es-es/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions?view=windows-11.
+(4) Introducción a NTFS | Microsoft Learn. https://learn.microsoft.com/es-es/windows-server/storage/file-server/ntfs-overview.
+(5) Asignar una ruta de acceso de carpeta de punto de montaje a una unidad .... https://learn.microsoft.com/es-es/windows-server/storage/disk-management/assign-a-mount-point-folder-path-to-a-drive.
+
+
+
+Para volver atrás una partición que contiene un snapshot con LVM, se puede usar el comando lvconvert con la opción --merge. Este comando fusiona el snapshot con el volumen lógico original, restaurando el estado del volumen lógico al momento en que se creó el snapshot¹. Por ejemplo, si se tiene un volumen lógico llamado root_lv y un snapshot llamado root_snap, se puede usar el siguiente comando para revertir los cambios:
+
+`lvconvert --merge /dev/system_vg/root_snap`
+
+Este comando desmontará el volumen lógico original y el snapshot, y luego los fusionará. El proceso puede tardar varios minutos, dependiendo del tamaño del snapshot y del volumen lógico. Una vez terminado, se puede volver a montar el volumen lógico original¹.
+
+Es importante tener en cuenta que este proceso es irreversible, es decir, una vez que se fusiona el snapshot con el volumen lógico original, no se puede volver al estado posterior al snapshot. Por lo tanto, se recomienda hacer una copia de seguridad de los datos importantes antes de realizar esta operación¹.
+
+Espero que esta respuesta te haya sido útil. Si quieres saber más sobre cómo usar los snapshots con LVM, puedes consultar los siguientes enlaces:
+
+- [Snapshots Con LVM: Úsalos Como Backup Para Revertir ... - Instructables](^1^)
+- [Recuperación de datos de particiones LVM en Linux - Hetman Software](^2^)
+- [Las instantáneas (snapshots) de LVM - Soy Linux](^4^)
+
+Origen: Conversación con Bing, 11-10-2023
+(1) Snapshots Con LVM: Úsalos Como Backup Para Revertir ... - Instructables. https://www.instructables.com/Snapshots-con-LVM-Usalos-como-backup-para-revertir/.
+(2) Snapshots Con LVM: Úsalos Como Backup Para Revertir ... - Instructables. https://www.instructables.com/Snapshots-con-LVM-Usalos-como-backup-para-revertir/.
+(3) Recuperación de datos de particiones LVM en Linux - Hetman Software. https://hetmanrecovery.com/es/blog/lvm-partition-in-linux-os-creation-customization-management-and-recovery-of-lost-data.htm.
+(4) Las instantáneas (snapshots) de LVM - Soy Linux. https://soylinux.com/las-instantaneas-snapshots-de-lvm/.
+(5) Snapshots Con LVM: Úsalos Como Backup Para Revertir ... - Instructables. https://bing.com/search?q=como+volver+atras+una+particion+que+contiene+un+snapshot+con+lvm%3f.
+
+Para eliminar un snapshot que ya no se usa, puedes usar el comando `lvremove` con el nombre del grupo y del snapshot. Por ejemplo, si tienes un snapshot llamado snap1 en el grupo vg1, puedes usar el siguiente comando:
+
+`lvremove vg1/snap1`
+
+Este comando borrará el snapshot y liberará el espacio que ocupaba. Ten en cuenta que al eliminar un snapshot, se pierde la posibilidad de revertir los cambios que se hicieron después de crearlo. Por lo tanto, asegúrate de que no necesitas el snapshot antes de eliminarlo¹²³.
+
+Espero que esta respuesta te haya sido útil. Si quieres saber más sobre cómo crear y gestionar los snapshots con LVM, puedes consultar los siguientes enlaces:
+
+- [Snapshots Con LVM: Úsalos Como Backup Para Revertir ... - Instructables](^3^)
+- [Recuperación de datos de particiones LVM en Linux - Hetman Software]
+- [Las instantáneas (snapshots) de LVM - Soy Linux]
+
+Origen: Conversación con Bing, 11-10-2023
+(1) Eliminar snapshots - VMware Docs. https://docs.vmware.com/es/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-06CB6D7D-9ECE-4C53-AA11-C5F2662328CD.html.
+(2) linux - How to keep or drop LVM snapshot? - Server Fault. https://serverfault.com/questions/184983/how-to-keep-or-drop-lvm-snapshot.
+(3) Snapshots Con LVM: Úsalos Como Backup Para Revertir Cambios En Tus .... https://www.instructables.com/Snapshots-con-LVM-Usalos-como-backup-para-revertir/.
+(4) Snapshots Con LVM: Úsalos Como Backup Para Revertir Cambios En Tus .... https://www.instructables.com/Snapshots-con-LVM-Usalos-como-backup-para-revertir/.
