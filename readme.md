@@ -75,3 +75,81 @@ sr0                      11:0    1  4.2G  0 rom
   PV /dev/sdb1   VG rhel            lvm2 [<80.00 GiB / 0    free]
   Total: 2 [118.89 GiB] / in use: 2 [118.89 GiB] / in no VG: 0 [0   
 
+[~]$ sudo vgdisplay
+  --- Volume group ---
+  VG Name               rhel
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  26
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                10
+  Open LV               9
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               118.89 GiB
+  PE Size               4.00 MiB
+  Total PE              30437
+  Alloc PE / Size       28540 / 111.48 GiB
+  Free  PE / Size       1897 / 7.41 GiB
+  VG UUID               tDH...
+
+
+[~]$ sudo lvdisplay
+  --- Logical volume ---
+  LV Name                pool00
+  VG Name                rhel
+  LV UUID                fgj...
+  LV Write Access        read/write (activated read only)
+  LV Creation host, time localhost, 2019-03-11 15:31:19 -0300
+  LV Pool metadata       pool00_tmeta
+  LV Pool data           pool00_tdata
+  LV Status              available
+  # open                 8
+  LV Size                <23.59 GiB
+  Allocated pool data    61.53%
+  Allocated metadata     6.03%
+  Current LE             6038
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+  --- Logical volume ---
+  LV Path                /dev/rhel/root
+  LV Name                root
+  VG Name                rhel
+  LV UUID                yuo...
+  LV Write Access        read/write
+  LV Creation host, time localhost, 2019-03-11 15:31:19 -0300
+  LV Pool name           pool00
+  LV Status              available
+  # open                 1
+  LV Size                <3.02 GiB
+  Mapped size            98.14%
+  Current LE             773
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:3
+.
+.
+.
+
+[~]$ sudo lvscan
+  ACTIVE            '/dev/rhel/pool00' [<23.59 GiB] inherit
+  ACTIVE            '/dev/rhel/root' [<3.02 GiB] inherit
+  ACTIVE            '/dev/rhel/var' [<6.66 GiB] inherit
+  ACTIVE            '/dev/rhel/home' [840.00 MiB] inherit
+  ACTIVE            '/dev/rhel/var_log' [<4.66 GiB] inherit
+  ACTIVE            '/dev/rhel/var_crash' [<4.66 GiB] inherit
+  ACTIVE            '/dev/rhel/usr' [<5.42 GiB] inherit
+  ACTIVE            '/dev/rhel/tmp' [956.00 MiB] inherit
+  ACTIVE            '/dev/rhel/swap' [<7.52 GiB] inherit
+  ACTIVE            '/dev/rhel/redis' [80.00 GiB] inherit
+
